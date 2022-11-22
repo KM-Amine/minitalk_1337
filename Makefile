@@ -10,7 +10,7 @@ COBJ = client.o
 SOBJ = server.o
 
 all: $(NAME)
-
+bonus: $(NAME)
 $(NAME): $(CLIENT) $(SERVER)
 
 $(CLIENT):$(COBJ)

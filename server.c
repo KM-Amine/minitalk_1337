@@ -6,12 +6,11 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/22 15:52:03 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/11/22 19:45:29 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <signal.h>
+#include "minitalk.h"
 
 void	ft_putchar_fd(char c, int fd)
 {
@@ -39,21 +38,17 @@ void	handler(int sig)
 	static int				i;
 
 	if (sig == SIGUSR1)
-	{
 		c |= (unsigned char)(1 << 7);
+	if (i < 7)
 		c >>= 1;
-	}
-	else if (sig == SIGUSR2)
-	{
-		c >>= 1;
-	}
-	i++;
 	if (i == 7)
 	{	
 		write(1, &c, 1);
 		c = 0;
 		i = 0;
+		return ;
 	}
+	i++;
 }
 
 int	main(void)
