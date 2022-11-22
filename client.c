@@ -1,47 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/22 14:39:56 by mkhellou          #+#    #+#             */
+/*   Updated: 2022/11/22 15:39:29 by mkhellou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <signal.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-static int	ft_isspace(char c)
-{
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
-}
-
-int	number_creator(const char *str, int i, int sign)
-{
-	int	save;
-	int	result;
-
-	result = 0;
-	save = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		save = result;
-		result = result * 10 ;
-		if (save != result / 10)
-		{
-			if (sign > 0)
-				return (-1);
-			else
-				return (0);
-		}
-		result = result +(str[i] - '0');
-		i++;
-	}
-	return (sign * result);
-}
 
 int	ft_atoi(const char *str)
 {
-	int		i;
-	int		sign;
+	long long		i;
+	int				sign;
+	long long		result;
 
 	sign = 1;
 	i = 0;
-	while (ft_isspace(str[i]))
+	result = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
@@ -49,43 +30,52 @@ int	ft_atoi(const char *str)
 			sign = sign * -1;
 		i++;
 	}
-	return (number_creator(str, i, sign));
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0' );
+		i++;
+	}
+	result = result * sign;
+	return (result);
 }
 
-int input(char *s ,int pid)
+void	input(unsigned char *str, int pid)
 {
-	int i;
-	int j;
-	unsigned char*str;
+	int	i;
+	int	j;
 
-	str = (unsigned char *)s;
 	j = 0;
 	i = 0;
 	while (str[i] != '\0')
 	{
 		j = 0;
-		while (j<=6)
+		while (j <= 6)
 		{
-			if((str[i] & 1) == 1)
+			if ((str[i] & 1) == 1)
 			{
-				kill(pid,SIGUSR1);
+				kill(pid, SIGUSR1);
 				usleep(50);
 			}
 			else
 			{
-				kill(pid,SIGUSR2);
+				kill(pid, SIGUSR2);
 				usleep(50);
 			}
 			str[i] = str[i] >> 1;
 			j++;
- 		}
+		}
 		i++;
 	}
-	return (0);
 }
 
-int main(int argc, char** argv)
+int	main(int argc, char	**argv)
 {
-	int i = ft_atoi(argv[1]);
-	input(argv[2],i);
+	int	i;
+
+	(void)argc;
+	if (argc > 3)
+		return (0);
+	i = ft_atoi(argv[1]);
+	input((unsigned char *)argv[2], i);
+	return (0);
 }
