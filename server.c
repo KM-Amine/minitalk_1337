@@ -6,11 +6,17 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/22 19:45:29 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/11/23 09:51:08 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+void	ft_error(void)
+{
+	write(1, "Error in signal handling", 25);
+	exit(EXIT_FAILURE);
+}
 
 void	ft_putchar_fd(char c, int fd)
 {
@@ -56,8 +62,11 @@ int	main(void)
 	write(1, "- process id of the server : ", 29);
 	ft_putnbr_fd(getpid(), 1);
 	write (1, "\n", 1);
-	signal(SIGUSR1, handler);
-	signal(SIGUSR2, handler);
+	if (signal(SIGUSR1, handler) == SIG_ERR)
+		ft_error();
+	if (signal(SIGUSR2, handler) == SIG_ERR)
+		ft_error();
 	while (1)
 		pause();
+	return (0);
 }

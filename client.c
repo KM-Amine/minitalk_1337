@@ -6,11 +6,17 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:56 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/22 19:45:43 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/11/23 09:56:02 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+void	ft_error(void)
+{
+	write(1, "Error in signal sending", 25);
+	exit(EXIT_FAILURE);
+}
 
 int	ft_atoi(const char *str)
 {
@@ -42,7 +48,9 @@ void	input(unsigned char *str, int pid)
 {
 	int	i;
 	int	j;
+	int	error;
 
+	error = 0;
 	j = 0;
 	i = 0;
 	while (str[i] != '\0')
@@ -51,17 +59,14 @@ void	input(unsigned char *str, int pid)
 		while (j < 8)
 		{
 			if ((str[i] & 1) == 1)
-			{
-				kill(pid, SIGUSR1);
-				usleep(100);
-			}
+				error = kill(pid, SIGUSR1);
 			else
-			{
-				kill(pid, SIGUSR2);
-				usleep(100);
-			}
+				error = kill(pid, SIGUSR2);
+			error = usleep(100);
 			str[i] = str[i] >> 1;
 			j++;
+			if (error == -1)
+				ft_error();
 		}
 		i++;
 	}
@@ -71,7 +76,6 @@ int	main(int argc, char	**argv)
 {
 	int	i;
 
-	(void)argc;
 	if (argc > 3)
 		return (0);
 	i = ft_atoi(argv[1]);
