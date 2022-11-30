@@ -6,12 +6,12 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/23 09:51:08 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/11/30 16:52:37 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
+#include <stdio.h>
 void	ft_error(void)
 {
 	write(1, "Error in signal handling", 25);
@@ -45,6 +45,8 @@ void	handler(int sig)
 
 	if (sig == SIGUSR1)
 		c |= (unsigned char)(1 << 7);
+	else if (sig == SIGUSR2)
+		c |= (unsigned char)0;
 	if (i < 7)
 		c >>= 1;
 	if (i == 7)
@@ -54,6 +56,8 @@ void	handler(int sig)
 		i = 0;
 		return ;
 	}
+	signal(SIGUSR1, handler);
+	signal(SIGUSR2, handler);
 	i++;
 }
 
