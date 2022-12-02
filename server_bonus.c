@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/02 11:05:21 by mkhellou          #+#    #+#             */
+/*   Updated: 2022/12/02 11:06:25 by mkhellou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include "minitalk.h"
-
-int i;
 
 void	ft_error(void)
 {
@@ -29,7 +39,7 @@ void	ft_putnbr(int n)
 	ft_putchar(i % 10 + '0');
 }
 
-void handler_action(int sig, struct __siginfo *info,void *str)
+void	handler_action(int sig, struct __siginfo *info, void *str)
 {
 	static unsigned char	c;
 	static int				i;
@@ -45,7 +55,7 @@ void handler_action(int sig, struct __siginfo *info,void *str)
 	{
 		write(1, &c, 1);
 		if (c == 0)
-			kill(info->si_pid,SIGUSR1);
+			kill(info->si_pid, SIGUSR1);
 		c = 0;
 		i = 0;
 		return ;
@@ -55,16 +65,16 @@ void handler_action(int sig, struct __siginfo *info,void *str)
 
 int	main(void)
 {
-	struct sigaction new_handler;
-	sigset_t set;
-	
+	struct sigaction	new_handler;
+	sigset_t			set;
+
 	sigemptyset(&set);
-	sigaddset(&set,0);
+	sigaddset(&set, 0);
 	new_handler.sa_flags = SA_SIGINFO;
 	new_handler.sa_mask = set;
 	new_handler.__sigaction_u.__sa_sigaction = handler_action;
-	sigaction(SIGUSR1,&new_handler,NULL);
-	sigaction(SIGUSR2,&new_handler,NULL);
+	sigaction(SIGUSR1, &new_handler, NULL);
+	sigaction(SIGUSR2, &new_handler, NULL);
 	write(1, "- process id of the server : ", 29);
 	ft_putnbr(getpid());
 	write (1, "\n", 1);

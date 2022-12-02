@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 11:04:12 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/02 10:14:23 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/02 11:10:14 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ size_t	ft_strlen(unsigned char *s)
 		i++;
 	return (i);
 }
+
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
@@ -45,7 +46,7 @@ void	ft_putstr(char *s)
 {
 	if (s == NULL)
 		return ;
-	write(1, s, ft_strlen((unsigned char*)s));
+	write(1, s, ft_strlen((unsigned char *)s));
 }
 
 void	ft_error(void)
@@ -83,9 +84,9 @@ int	ft_atoi(const char *str)
 void	input(unsigned char *str, int pid)
 {
 	size_t	i;
-	int	j;
-	int	error;
-	size_t len;
+	int		j;
+	int		error;
+	size_t	len;
 
 	error = 0;
 	j = 0;
@@ -109,16 +110,18 @@ void	input(unsigned char *str, int pid)
 		i++;
 	}
 }
+
 void	handler(int sig)
 {
 	if (sig == SIGUSR1)
 		ft_putstr("message recieved successfully");
 }
+
 int	main(int argc, char	**argv)
 {
 	int	i;
 
-	signal(SIGUSR1,handler);
+	signal(SIGUSR1, handler);
 	if (argc > 3)
 		return (0);
 	i = ft_atoi(argv[1]);

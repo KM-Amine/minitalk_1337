@@ -6,12 +6,13 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/30 16:52:37 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/02 11:16:15 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <stdio.h>
+
 void	ft_error(void)
 {
 	write(1, "Error in signal handling", 25);
