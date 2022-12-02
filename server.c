@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/02 11:24:52 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/02 12:27:53 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,6 @@ void	ft_error(void)
 {
 	write(1, "Error in signal handling", 25);
 	exit(EXIT_FAILURE);
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
-void	ft_putnbr_fd(int n, int fd)
-{
-	long	i;
-
-	i = n;
-	if (i < 0)
-	{
-		ft_putchar_fd('-', fd);
-		i = i * -1;
-	}
-	if (i > 9)
-		ft_putnbr_fd(i / 10, fd);
-	ft_putchar_fd(i % 10 + '0', fd);
 }
 
 void	handler(int sig)

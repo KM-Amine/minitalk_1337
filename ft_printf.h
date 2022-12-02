@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/22 15:09:22 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/02 12:46:04 by mkhellou         ###   ########.fr       */
+/*   Created: 2022/11/09 11:52:48 by mkhellou          #+#    #+#             */
+/*   Updated: 2022/12/02 12:06:25 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 # include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include "libft.h"
-# include "ft_printf.h"
+# include <stdarg.h>
 
-void	ft_putchar_fd(char c, int fd);
-void	ft_putnbr_fd(int n, int fd);
-void	handler(int sig);
-int		ft_atoi(const char *str);
-void	input(unsigned char *str, int pid);
+int		ft_printf(const char *str, ...);
+
+void	ft_putchar(char c, int *len);
+void	ft_putstr(char *str, int *len);
+void	ft_putnbr(int i, int *len);
+void	ft_putuns(unsigned int i, int *len);
+void	ft_puthex(unsigned int i, int *len, char *base);
+void	ft_putptr(unsigned long long i, int *len);
 
 #endif

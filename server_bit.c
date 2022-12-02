@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_bonus.c                                     :+:      :+:    :+:   */
+/*   server_bit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 11:05:21 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/02 12:58:04 by mkhellou         ###   ########.fr       */
+/*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
+/*   Updated: 2022/12/02 18:32:23 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+unsigned char	g_c;
 
 void	ft_error(void)
 {
@@ -20,22 +22,25 @@ void	ft_error(void)
 
 void	handler_action(int sig, struct __siginfo *info, void *str)
 {
-	static unsigned char	c;
 	static int				i;
 
 	(void)str;
 	if (sig == SIGUSR1)
-		c |= (unsigned char)(1 << 7);
+	{
+		g_c |= (unsigned char)(1 << 7);
+		kill(info->si_pid, SIGUSR1);
+	}
 	else if (sig == SIGUSR2)
-		c |= (unsigned char)0;
+	{
+		g_c |= (unsigned char)0;
+		kill(info->si_pid, SIGUSR2);
+	}
 	if (i < 7)
-		c >>= 1;
+		g_c >>= 1;
 	if (i == 7)
 	{
-		write(1, &c, 1);
-		if (c == 0)
-			kill(info->si_pid, SIGUSR1);
-		c = 0;
+		write(1, &g_c, 1);
+		g_c = 0;
 		i = 0;
 		return ;
 	}
@@ -58,6 +63,8 @@ int	main(void)
 	ft_printf("%d", getpid());
 	write (1, "\n", 1);
 	while (1)
+	{
 		pause();
+	}
 	return (0);
 }
