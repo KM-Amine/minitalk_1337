@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 11:04:12 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/11/30 17:43:52 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/02 10:14:23 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,36 +85,34 @@ void	input(unsigned char *str, int pid)
 	size_t	i;
 	int	j;
 	int	error;
+	size_t len;
 
 	error = 0;
 	j = 0;
-	i = ft_strlen(str) + 1;
-	while (i)
+	i = 0;
+	len = ft_strlen(str);
+	while (i <= len)
 	{
 		j = 0;
 		while (j < 8)
 		{
 			if ((str[i] & 1) == 1)
-				{
 				error = kill(pid, SIGUSR1);
-				}
 			else
-				{
 				error = kill(pid, SIGUSR2);
-				}
-			error = usleep(100);
+			usleep(100);
 			str[i] = str[i] >> 1;
 			j++;
 			if (error == -1)
 				ft_error();
 		}
-		i--;
+		i++;
 	}
 }
 void	handler(int sig)
 {
 	if (sig == SIGUSR1)
-		ft_putstr("message recieved");
+		ft_putstr("message recieved successfully");
 }
 int	main(int argc, char	**argv)
 {
@@ -125,7 +123,5 @@ int	main(int argc, char	**argv)
 		return (0);
 	i = ft_atoi(argv[1]);
 	input((unsigned char *)argv[2], i);
-	while (1)
-		pause();
 	return (0);
 }

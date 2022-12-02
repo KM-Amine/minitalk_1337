@@ -9,48 +9,43 @@ void	ft_error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_putchar_fd(char c, int fd)
+void	ft_putchar(char c)
 {
-	write(fd, &c, 1);
+	write(1, &c, 1);
 }
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnbr(int n)
 {
 	long	i;
 
 	i = n;
 	if (i < 0)
 	{
-		ft_putchar_fd('-', fd);
+		ft_putchar('-');
 		i = i * -1;
 	}
 	if (i > 9)
-		ft_putnbr_fd(i / 10, fd);
-	ft_putchar_fd(i % 10 + '0', fd);
+		ft_putnbr(i / 10);
+	ft_putchar(i % 10 + '0');
 }
 
 void handler_action(int sig, struct __siginfo *info,void *str)
 {
 	static unsigned char	c;
 	static int				i;
-	pid_t id;
 
 	(void)str;
-	id = info->si_pid;
 	if (sig == SIGUSR1)
-	{
 		c |= (unsigned char)(1 << 7);
-		kill(i,SIGUSR1);
-	}
-	else
-		kill(i,SIGUSR2);
+	else if (sig == SIGUSR2)
+		c |= (unsigned char)0;
 	if (i < 7)
 		c >>= 1;
 	if (i == 7)
-	{	
+	{
 		write(1, &c, 1);
 		if (c == 0)
-			kill(id,SIGUSR1);
+			kill(info->si_pid,SIGUSR1);
 		c = 0;
 		i = 0;
 		return ;
@@ -71,7 +66,8 @@ int	main(void)
 	sigaction(SIGUSR1,&new_handler,NULL);
 	sigaction(SIGUSR2,&new_handler,NULL);
 	write(1, "- process id of the server : ", 29);
-	ft_putnbr_fd(getpid(), 1);
+	ft_putnbr(getpid());
+	write (1, "\n", 1);
 	while (1)
 		pause();
 	return (0);
