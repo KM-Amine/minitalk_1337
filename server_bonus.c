@@ -6,11 +6,10 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:05:21 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/02 11:06:25 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/02 11:24:47 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "minitalk.h"
 
 void	ft_error(void)
