@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:51:21 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/02 19:24:58 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/04 10:35:26 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ void	input(unsigned char *str, int pid)
 		{
 			if ((str[i] & 1) == 1)
 			{
+				usleep(100);
 				error = kill(pid, SIGUSR1);
 				pause();
 			}
 			else
 			{
+				usleep(100);
 				error = kill(pid, SIGUSR2);
 				pause();
 			}
@@ -51,22 +53,11 @@ void	input(unsigned char *str, int pid)
 				ft_error();
 		}
 		ft_printf("\n");
+		ft_printf("byte recieved successfully\n");
 		if (c == 0)
 			ft_printf("message recieved successfully\n");
 		i++;
 	}
-}
-
-void	handler(int sig)
-{
-	int	i;
-
-	i = 0;
-	if (sig == SIGUSR1)
-		ft_printf("1");
-	if (sig == SIGUSR2)
-		ft_printf("0");
-	i++;
 }
 
 void	handler_action(int sig, struct __siginfo *info, void *str)

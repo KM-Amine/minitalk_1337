@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/02 18:32:23 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/04 10:28:14 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ void	handler_action(int sig, struct __siginfo *info, void *str)
 	if (sig == SIGUSR1)
 	{
 		g_c |= (unsigned char)(1 << 7);
+		usleep(100);
 		kill(info->si_pid, SIGUSR1);
 	}
 	else if (sig == SIGUSR2)
 	{
 		g_c |= (unsigned char)0;
+		usleep(100);
 		kill(info->si_pid, SIGUSR2);
 	}
 	if (i < 7)
