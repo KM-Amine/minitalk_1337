@@ -10,11 +10,11 @@ SERVER = server
 COBJ = client.o
 SOBJ = server.o
 
-BCLIENT = client_bit
-BSERVER = server_bit
+BCLIENT = client_bonus
+BSERVER = server_bonus
 
-BCOBJ = client_bit.o
-BSOBJ = server_bit.o
+BCOBJ = client_bonus.o
+BSOBJ = server_bonus.o
 
 LIBFT = custom_libft/libft.a 
 
