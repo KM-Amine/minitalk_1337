@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:51:21 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/04 17:35:37 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/05 13:12:09 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int argc, char	**argv)
 	sigaddset(&set, 0);
 	new_handler.sa_flags = SA_SIGINFO;
 	new_handler.sa_mask = set;
-	new_handler.__sigaction_u.__sa_sigaction = handler_action;
+	new_handler.sa_sigaction = handler_action;
 	sigaction(SIGUSR1, &new_handler, NULL);
 	sigaction(SIGUSR2, &new_handler, NULL);
 	if (argc > 3)
