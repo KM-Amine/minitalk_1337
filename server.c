@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/05 12:01:20 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/05 18:06:28 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ int	main(void)
 		ft_error();
 	while (1)
 		pause();
+	//regler le decalage de bit en mettant c to 0 
 	return (0);
 }

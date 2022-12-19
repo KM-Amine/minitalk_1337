@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:56 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/02 18:37:56 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/05 18:05:54 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char	**argv)
 	if (argc != 3)
 		return (0);
 	i = ft_atoi(argv[1]);
+	//argv with letters
 	input((unsigned char *)argv[2], i);
 	return (0);
 }
