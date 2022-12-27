@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:56 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 11:59:24 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/27 12:42:31 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	input(unsigned char *str, int pid)
 	int	j;
 	int	error;
 
-	error = 0;
 	j = 0;
 	i = 0;
 	while (str[i] != '\0')
@@ -33,10 +32,10 @@ void	input(unsigned char *str, int pid)
 		while (j < 8)
 		{
 			if ((str[i] & 1) == 1)
-				kill(pid, SIGUSR1);
+				error = kill(pid, SIGUSR1);
 			else
-				kill(pid, SIGUSR2);
-			error = usleep(100);
+				error = kill(pid, SIGUSR2);
+			usleep(100);
 			str[i] = str[i] >> 1;
 			j++;
 			if (error == -1)
@@ -48,11 +47,11 @@ void	input(unsigned char *str, int pid)
 
 int	main(int argc, char	**argv)
 {
-	int	i;
-	size_t j;
-	int error;
+	int		pid;
+	size_t	j;
+
 	j = 0;
-	if (argc != 3 )
+	if (argc != 3)
 	{
 		ft_printf("Error : incorrect number of arguments");
 		return (0);
@@ -62,17 +61,11 @@ int	main(int argc, char	**argv)
 		if (ft_isalpha(argv[1][j]))
 		{
 			ft_printf("Error : incorrect PID");
-			return(0);
+			exit(EXIT_FAILURE);
 		}
 		j++;
 	}
-	i = ft_atoi(argv[1]);
-	error = kill(i,0);
-	if (error == -1)
-	{
-		ft_printf("Error in signal sending or process does not exist");
-		exit(EXIT_FAILURE);
-	}
-	input((unsigned char *)argv[2], i);
+	pid = ft_atoi(argv[1]);
+	input((unsigned char *)argv[2], pid);
 	return (0);
 }
