@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 17:54:57 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/27 20:01:58 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error(void)
 {
-	write(1, "Error in signal handling", 25);
+	ft_printf("Error in signal sending or process does not exist");
 	exit(EXIT_FAILURE);
 }
 
@@ -37,19 +37,21 @@ void	handler_action(int sig, siginfo_t *info, void *str)
 	{
 		c |= (unsigned char)(1 << 7);
 		usleep(50);
-		kill(pid, SIGUSR1);
+		if(kill(pid, SIGUSR1) == -1)
+			ft_error();
 	}
 	else if (sig == SIGUSR2)
 	{
 		c |= (unsigned char)0;
 		usleep(50);
-		kill(pid, SIGUSR2);
+		if(kill(pid, SIGUSR2) == -1)
+			ft_error();
 	}
 	if (i < 7)
 		c >>= 1;
 	if (i == 7)
 	{
-		write(1, &c, 1);
+		ft_printf("%c", c);
 		c = 0;
 		i = 0;
 		return ;
@@ -57,13 +59,18 @@ void	handler_action(int sig, siginfo_t *info, void *str)
 	i++;
 }
 
-int	main(void)
+int	main(int argc, char	**argv)
 {
 	struct sigaction	new_handler;
 	sigset_t			set;
 
+	(void)argv;
+	if (argc != 1)
+	{
+		ft_printf("Error : too much arguments");
+		exit(EXIT_FAILURE);
+	}
 	sigemptyset(&set);
-	sigaddset(&set, 0);
 	new_handler.sa_flags = SA_SIGINFO;
 	new_handler.sa_mask = set;
 	new_handler.sa_sigaction = handler_action;
@@ -71,8 +78,6 @@ int	main(void)
 	sigaction(SIGUSR2, &new_handler, NULL);
 	ft_printf("- process id of the server : %d\n",getpid());
 	while (1)
-	{
 		pause();
-	}
 	return (0);
 }
