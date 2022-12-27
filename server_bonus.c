@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 20:01:58 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/27 20:04:09 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	handler_action(int sig, siginfo_t *info, void *str)
 	{
 		c |= (unsigned char)(1 << 7);
 		usleep(50);
-		if(kill(pid, SIGUSR1) == -1)
+		if (kill(pid, SIGUSR1) == -1)
 			ft_error();
 	}
 	else if (sig == SIGUSR2)
 	{
 		c |= (unsigned char)0;
 		usleep(50);
-		if(kill(pid, SIGUSR2) == -1)
+		if (kill(pid, SIGUSR2) == -1)
 			ft_error();
 	}
 	if (i < 7)
@@ -76,7 +76,7 @@ int	main(int argc, char	**argv)
 	new_handler.sa_sigaction = handler_action;
 	sigaction(SIGUSR1, &new_handler, NULL);
 	sigaction(SIGUSR2, &new_handler, NULL);
-	ft_printf("- process id of the server : %d\n",getpid());
+	ft_printf("- process id of the server : %d\n", getpid());
 	while (1)
 		pause();
 	return (0);
