@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:56 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 11:16:35 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:59:24 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error(void)
 {
-	ft_printf("Error in signal sending");
+	ft_printf("Error in signal sending or process does not exist");
 	exit(EXIT_FAILURE);
 }
 
@@ -33,9 +33,9 @@ void	input(unsigned char *str, int pid)
 		while (j < 8)
 		{
 			if ((str[i] & 1) == 1)
-				error = kill(pid, SIGUSR1);
+				kill(pid, SIGUSR1);
 			else
-				error = kill(pid, SIGUSR2);
+				kill(pid, SIGUSR2);
 			error = usleep(100);
 			str[i] = str[i] >> 1;
 			j++;
@@ -50,7 +50,7 @@ int	main(int argc, char	**argv)
 {
 	int	i;
 	size_t j;
-
+	int error;
 	j = 0;
 	if (argc != 3 )
 	{
@@ -67,6 +67,12 @@ int	main(int argc, char	**argv)
 		j++;
 	}
 	i = ft_atoi(argv[1]);
+	error = kill(i,0);
+	if (error == -1)
+	{
+		ft_printf("Error in signal sending or process does not exist");
+		exit(EXIT_FAILURE);
+	}
 	input((unsigned char *)argv[2], i);
 	return (0);
 }
