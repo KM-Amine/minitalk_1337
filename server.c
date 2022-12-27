@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 12:56:57 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/27 17:43:51 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	character_creator(int *sig, unsigned char *c, int *i)
 		*c >>= 1;
 }
 
-void	handler_action(int sig, struct __siginfo *info, void *str)
+void	handler_action(int sig, siginfo_t *info, void *str)
 {
 	static unsigned char	c;
 	static int				i;
@@ -73,5 +73,4 @@ int	main(int argc, char	**argv)
 	return (0);
 }
 
-	//sigaddset(&set, 0); use case?
-	//time out?
+

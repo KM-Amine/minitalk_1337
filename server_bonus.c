@@ -6,13 +6,11 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 11:19:05 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/27 17:54:57 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-unsigned char	g_c;
 
 void	ft_error(void)
 {
@@ -20,29 +18,39 @@ void	ft_error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	handler_action(int sig, struct __siginfo *info, void *str)
+void	handler_action(int sig, siginfo_t *info, void *str)
 {
 	static int				i;
+	static int				pid;
+	static unsigned char	c;
 
 	(void)str;
+	if (pid == 0)
+		pid = info->si_pid;
+	if (info->si_pid != pid)
+	{
+		pid = info->si_pid;
+		c = 0;
+		i = 0;
+	}
 	if (sig == SIGUSR1)
 	{
-		g_c |= (unsigned char)(1 << 7);
+		c |= (unsigned char)(1 << 7);
 		usleep(50);
-		kill(info->si_pid, SIGUSR1);
+		kill(pid, SIGUSR1);
 	}
 	else if (sig == SIGUSR2)
 	{
-		g_c |= (unsigned char)0;
+		c |= (unsigned char)0;
 		usleep(50);
-		kill(info->si_pid, SIGUSR2);
+		kill(pid, SIGUSR2);
 	}
 	if (i < 7)
-		g_c >>= 1;
+		c >>= 1;
 	if (i == 7)
 	{
-		write(1, &g_c, 1);
-		g_c = 0;
+		write(1, &c, 1);
+		c = 0;
 		i = 0;
 		return ;
 	}
@@ -62,11 +70,9 @@ int	main(void)
 	sigaction(SIGUSR1, &new_handler, NULL);
 	sigaction(SIGUSR2, &new_handler, NULL);
 	ft_printf("- process id of the server : %d\n",getpid());
-
 	while (1)
 	{
 		pause();
 	}
 	return (0);
 }
-	//new_handler.__sigaction_u.__sa_sigaction = handler_action;
