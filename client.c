@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:56 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/05 18:05:54 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:16:35 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,24 @@ void	input(unsigned char *str, int pid)
 int	main(int argc, char	**argv)
 {
 	int	i;
+	size_t j;
 
-	if (argc != 3)
+	j = 0;
+	if (argc != 3 )
+	{
+		ft_printf("Error : incorrect number of arguments");
 		return (0);
+	}
+	while (j < ft_strlen(argv[1]))
+	{
+		if (ft_isalpha(argv[1][j]))
+		{
+			ft_printf("Error : incorrect PID");
+			return(0);
+		}
+		j++;
+	}
 	i = ft_atoi(argv[1]);
-	//argv with letters
 	input((unsigned char *)argv[2], i);
 	return (0);
 }

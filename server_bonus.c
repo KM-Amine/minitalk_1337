@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/05 11:46:38 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:19:05 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,14 @@ int	main(void)
 	new_handler.sa_flags = SA_SIGINFO;
 	new_handler.sa_mask = set;
 	new_handler.sa_sigaction = handler_action;
-	//new_handler.__sigaction_u.__sa_sigaction = handler_action;
 	sigaction(SIGUSR1, &new_handler, NULL);
 	sigaction(SIGUSR2, &new_handler, NULL);
-	write(1, "- process id of the server : ", 29);
-	ft_printf("%d", getpid());
-	write (1, "\n", 1);
+	ft_printf("- process id of the server : %d\n",getpid());
+
 	while (1)
 	{
 		pause();
 	}
 	return (0);
 }
+	//new_handler.__sigaction_u.__sa_sigaction = handler_action;
