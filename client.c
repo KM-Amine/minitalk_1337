@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:56 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 12:42:31 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/28 10:50:33 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error(void)
 {
-	ft_printf("Error in signal sending or process does not exist");
+	ft_putstr_fd("Error in signal sending or process does not exist",2);
 	exit(EXIT_FAILURE);
 }
 
@@ -53,14 +53,14 @@ int	main(int argc, char	**argv)
 	j = 0;
 	if (argc != 3)
 	{
-		ft_printf("Error : incorrect number of arguments");
+		ft_putstr_fd("Error : incorrect number of arguments",2);
 		return (0);
 	}
 	while (j < ft_strlen(argv[1]))
 	{
 		if (ft_isalpha(argv[1][j]))
 		{
-			ft_printf("Error : incorrect PID");
+			ft_putstr_fd("Error : incorrect PID",2);
 			exit(EXIT_FAILURE);
 		}
 		j++;

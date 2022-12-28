@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 20:04:09 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/28 11:04:59 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error(void)
 {
-	ft_printf("Error in signal sending or process does not exist");
+	ft_putstr_fd("Error in signal sending or process does not exist", 2);
 	exit(EXIT_FAILURE);
 }
 
@@ -67,7 +67,7 @@ int	main(int argc, char	**argv)
 	(void)argv;
 	if (argc != 1)
 	{
-		ft_printf("Error : too much arguments");
+		ft_putstr_fd("Error : too much arguments", 2);
 		exit(EXIT_FAILURE);
 	}
 	sigemptyset(&set);

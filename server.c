@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 14:39:43 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/27 20:03:31 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/28 11:03:36 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char	**argv)
 	(void)argv;
 	if (argc != 1)
 	{
-		ft_printf("Error : too much arguments");
+		ft_putstr_fd("Error : too much arguments",2);
 		exit(EXIT_FAILURE);
 	}
 	sigemptyset(&set);
