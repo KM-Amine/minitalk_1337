@@ -6,17 +6,64 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/28 11:04:59 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/28 15:24:09 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <limits.h>
 
 void	ft_error(void)
 {
 	ft_putstr_fd("Error in signal sending or process does not exist", 2);
 	exit(EXIT_FAILURE);
 }
+
+int unicode_checker(unsigned char c)
+{
+	int i;
+
+	if ((c & 0x80) == 0)
+		i = 1;
+	if ((c & 0xC0) != 0 && (c & 0x20) == 0)
+		i = 2;
+	if ((c & 0xE0) != 0 && (c & 0x10) == 0)
+		i = 3;
+	if ((c & 0xF0) != 0 && (c & 0x8) == 0)
+		i = 4;
+	return (i);
+}
+
+void unicode_buffer(unsigned char c, int pid)
+{
+	static int status;
+	static unsigned char buff[INT_MAX][4];
+	static int counter;
+
+	// if (i == -1)
+	// {
+	// 	ft_bzero(buff[pid],4);
+	// 	counter = 0;
+	// 	return;
+	// }
+	if (counter == 0)
+	{
+		status = unicode_checker(c);
+		counter = status;
+	}
+	if(counter != 0)
+	{
+		buff[pid][status - counter] = c;
+		counter--;
+	}
+	if (counter == 0)
+	{
+		ft_printf("%s",buff);
+		ft_bzero(buff,4);
+	}
+}
+
+
 
 void	handler_action(int sig, siginfo_t *info, void *str)
 {
@@ -30,7 +77,7 @@ void	handler_action(int sig, siginfo_t *info, void *str)
 	if (info->si_pid != pid)
 	{
 		pid = info->si_pid;
-		c = 0;
+		unicode_buffer(c,-1);
 		i = 0;
 	}
 	if (sig == SIGUSR1)
@@ -51,7 +98,7 @@ void	handler_action(int sig, siginfo_t *info, void *str)
 		c >>= 1;
 	if (i == 7)
 	{
-		ft_printf("%c", c);
+		unicode_buffer(c,1);
 		c = 0;
 		i = 0;
 		return ;
