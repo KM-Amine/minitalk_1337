@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2022/12/28 15:24:09 by mkhellou         ###   ########.fr       */
+/*   Updated: 2022/12/28 15:33:06 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int unicode_checker(unsigned char c)
 
 void unicode_buffer(unsigned char c, int pid)
 {
-	static int status;
-	static unsigned char buff[INT_MAX][4];
-	static int counter;
+	static int status[100000];
+	static unsigned char buff[100000][4];
+	static int counter[100000];
 
 	// if (i == -1)
 	// {
@@ -46,19 +46,19 @@ void unicode_buffer(unsigned char c, int pid)
 	// 	counter = 0;
 	// 	return;
 	// }
-	if (counter == 0)
+	if (counter[pid] == 0)
 	{
-		status = unicode_checker(c);
-		counter = status;
+		status[pid] = unicode_checker(c);
+		counter[pid]  = status[pid] ;
 	}
-	if(counter != 0)
+	if(counter[pid] != 0)
 	{
 		buff[pid][status - counter] = c;
-		counter--;
+		counter[pid]--;
 	}
-	if (counter == 0)
+	if (counter[pid] == 0)
 	{
-		ft_printf("%s",buff);
+		ft_printf("%s",buff[pid]);
 		ft_bzero(buff,4);
 	}
 }
@@ -67,43 +67,43 @@ void unicode_buffer(unsigned char c, int pid)
 
 void	handler_action(int sig, siginfo_t *info, void *str)
 {
-	static int				i;
-	static int				pid;
-	static unsigned char	c;
+	static int				i[100000];
+	//static int				pid;
+	static unsigned char	c[100000];
 
 	(void)str;
-	if (pid == 0)
-		pid = info->si_pid;
-	if (info->si_pid != pid)
-	{
-		pid = info->si_pid;
-		unicode_buffer(c,-1);
-		i = 0;
-	}
+	// if (pid == 0)
+	// 	pid = info->si_pid;
+	// if (info->si_pid != pid)
+	// {
+	// 	pid = info->si_pid;
+	// 	unicode_buffer(c,-1);
+	// 	i = 0;
+	// }
 	if (sig == SIGUSR1)
 	{
-		c |= (unsigned char)(1 << 7);
+		c[info->si_pid] |= (unsigned char)(1 << 7);
 		usleep(50);
-		if (kill(pid, SIGUSR1) == -1)
+		if (kill(info->si_pid, SIGUSR1) == -1)
 			ft_error();
 	}
 	else if (sig == SIGUSR2)
 	{
-		c |= (unsigned char)0;
+		c[info->si_pid] |= (unsigned char)0;
 		usleep(50);
-		if (kill(pid, SIGUSR2) == -1)
+		if (kill(info->si_pid, SIGUSR2) == -1)
 			ft_error();
 	}
-	if (i < 7)
-		c >>= 1;
-	if (i == 7)
+	if (i[info->si_pid] < 7)
+		c[info->si_pid] >>= 1;
+	if (i[info->si_pid] == 7)
 	{
-		unicode_buffer(c,1);
-		c = 0;
-		i = 0;
+		unicode_buffer(c[info->si_pid],1);
+		c[info->si_pid] = 0;
+		i[info->si_pid] = 0;
 		return ;
 	}
-	i++;
+	i[info->si_pid]++;
 }
 
 int	main(int argc, char	**argv)
