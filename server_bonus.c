@@ -6,16 +6,18 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/01 09:21:57 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/01 11:02:45 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <limits.h>
 
+
+
 void	ft_error(void)
 {
-	ft_putstr_fd("Error in signal sending or process does not exist", 2);
+	ft_putstr_fd("Error in signal sending or process does not exist\n", 2);
 	exit(EXIT_FAILURE);
 }
 
@@ -40,12 +42,6 @@ void unicode_buffer(unsigned char c, int pid)
 	static unsigned char buff[100000][5];
 	static int counter[100000];
 
-	// if (i == -1)
-	// {
-	// 	ft_bzero(buff[pid],4);
-	// 	counter = 0;
-	// 	return;
-	// }
 	if (counter[pid] == 0)
 	{
 		status[pid] = unicode_checker(c);
@@ -69,18 +65,11 @@ void unicode_buffer(unsigned char c, int pid)
 void	handler_action(int sig, siginfo_t *info, void *str)
 {
 	static int				i[100000];
-	//static int				pid;
 	static unsigned char	c[100000];
 
 	(void)str;
-	// if (pid == 0)
-	// 	pid = info->si_pid;
-	// if (info->si_pid != pid)
-	// {
-	// 	pid = info->si_pid;
-	// 	unicode_buffer(c,-1);
-	// 	i = 0;
-	// }
+	if (info->si_pid == 0)
+		return;
 	if (sig == SIGUSR1)
 	{
 		c[info->si_pid] |= (unsigned char)(1 << 7);
@@ -115,7 +104,7 @@ int	main(int argc, char	**argv)
 	(void)argv;
 	if (argc != 1)
 	{
-		ft_putstr_fd("Error : too much arguments", 2);
+		ft_putstr_fd("Error : too much arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	sigemptyset(&set);
@@ -126,6 +115,8 @@ int	main(int argc, char	**argv)
 	sigaction(SIGUSR2, &new_handler, NULL);
 	ft_printf("- process id of the server : %d\n", getpid());
 	while (1)
+	{
 		pause();
+	}
 	return (0);
 }
