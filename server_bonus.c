@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/01 11:02:45 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/01 13:31:23 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ int unicode_checker(unsigned char c)
 {
 	int i;
 
+	i = 0;
 	if ((c & 0x80) == 0)
 		i = 1;
-	if ((c & 0xC0) != 0 && (c & 0x20) == 0)
+	else if ((c & 0xC0) != 0 && (c & 0x20) == 0)
 		i = 2;
-	if ((c & 0xE0) != 0 && (c & 0x10) == 0)
+	else if ((c & 0xE0) != 0 && (c & 0x10) == 0)
 		i = 3;
-	if ((c & 0xF0) != 0 && (c & 0x8) == 0)
+	else if ((c & 0xF0) != 0 && (c & 0x8) == 0)
 		i = 4;
 	return (i);
 }
