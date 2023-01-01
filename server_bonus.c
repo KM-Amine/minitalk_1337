@@ -6,7 +6,7 @@
 /*   By: mkhellou < mkhellou@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:45:55 by mkhellou          #+#    #+#             */
-/*   Updated: 2023/01/01 08:45:38 by mkhellou         ###   ########.fr       */
+/*   Updated: 2023/01/01 09:07:42 by mkhellou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int unicode_checker(unsigned char c)
 void unicode_buffer(unsigned char c, int pid)
 {
 	static int status[100000];
-	static unsigned char buff[100000][5];
+	static unsigned char buff[100000][4];
 	static int counter[100000];
 
 	// if (i == -1)
@@ -53,13 +53,14 @@ void unicode_buffer(unsigned char c, int pid)
 	}
 	if(counter[pid] != 0)
 	{
-		buff[pid][status - counter] = c;
+		buff[pid][status[pid] - counter[pid]] = c;
 		counter[pid]--;
+		
 	}
 	if (counter[pid] == 0)
 	{
 		ft_printf("%s",buff[pid]);
-		ft_bzero(buff,5);
+		ft_bzero(buff,4);
 	}
 }
 
